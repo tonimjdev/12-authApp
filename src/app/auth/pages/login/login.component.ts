@@ -19,16 +19,16 @@ export class LoginComponent {
 
   constructor( private fb: FormBuilder,
                 private router: Router,
-                private authservice: AuthService  ) { }
+                private authService: AuthService  ) { }
 
   login() {
+
     console.log(this.miFormulario.value);
+
     const { email, password } = this.miFormulario.value;
 
-    this.authservice.login( email, password )
+    this.authService.login( email, password )
     .subscribe( ok => {
-
-      console.log(ok);
 
       if ( ok === true ) {
         this.router.navigateByUrl('/dashboard');
