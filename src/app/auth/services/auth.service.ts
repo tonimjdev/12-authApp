@@ -19,6 +19,8 @@ export class AuthService {
 
   constructor( private http: HttpClient ) { }
 
+
+  // REGISTRO
   registro( name:string, email:string, password:string ){
     const url = `${ this.baseUrl }/auth/new`;
     const body = { email, password, name };
@@ -28,10 +30,6 @@ export class AuthService {
       tap( resp => {
         if ( resp.ok ) {
           localStorage.setItem( 'token', resp.token! );
-          this._usuario = {
-            name: resp.name!,
-            uid: resp.uid!
-          }
         }
       }),
       map( resp => resp.ok ),
@@ -42,7 +40,7 @@ export class AuthService {
 
 
 
-
+  // LOG IN
   login( email: string, password: string ) {
     
     const url = `${ this.baseUrl }/auth`;
@@ -52,10 +50,6 @@ export class AuthService {
       tap( resp => {
         if ( resp.ok ) {
           localStorage.setItem('token', resp.token!);
-          this._usuario = {
-            name: resp.name!,
-            uid: resp.uid!
-          }
         }
       }),
       map( resp => resp.ok ),
@@ -64,6 +58,8 @@ export class AuthService {
     
   }
 
+
+  // VALIDAR TOKEN
   validarToken(): Observable<boolean> {
     const url = `${this.baseUrl}/auth/renew`;
     const headers = new HttpHeaders()
@@ -76,7 +72,8 @@ export class AuthService {
         localStorage.setItem('token', resp.token!);
           this._usuario = {
             name: resp.name!,
-            uid: resp.uid!
+            uid: resp.uid!,
+            email: resp.email!
           }
 
         return resp.ok;
